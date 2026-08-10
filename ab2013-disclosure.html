@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Training Data Transparency — [[COMPANY NAME]]</title>
+<meta name="description" content="High-level training data documentation under California Civil Code section 3111.">
+<style>
+:root{--ink:#0a0a0a;--muted:#555;--line:#d8d8d8;--bg:#fff}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 Georgia,"Times New Roman",Times,serif}
+.wrap{max-width:700px;margin:0 auto;padding:56px 24px 88px}
+.kicker{font:11px/1.2 ui-sans-serif,system-ui,sans-serif;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:0 0 16px}
+h1{font:600 1.65rem/1.25 ui-sans-serif,system-ui,sans-serif;letter-spacing:-.02em;margin:0 0 6px}
+.meta{font:13px/1.4 ui-sans-serif,system-ui,sans-serif;color:var(--muted);margin:0 0 28px}
+.rule{font:12.5px/1.5 ui-sans-serif,system-ui,sans-serif;color:var(--muted);border:1px solid var(--line);padding:12px 14px;margin:0 0 32px}
+.rule strong{color:var(--ink);font-weight:600}
+h2{font:600 12px/1.3 ui-sans-serif,system-ui,sans-serif;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:28px 0 8px;padding-top:20px;border-top:1px solid var(--line)}
+.item{margin:0 0 14px}
+.lab{font:600 12px/1.35 ui-sans-serif,system-ui,sans-serif;color:var(--muted);margin:0 0 3px}
+.val{margin:0;min-height:1.4em;border-bottom:1px dotted #bbb;color:#222}
+.ph{color:#999}
+.cite{font:11px/1.3 ui-sans-serif,system-ui,sans-serif;color:#999}
+footer{margin-top:40px;padding-top:14px;border-top:1px solid var(--line);font:12px/1.5 ui-sans-serif,system-ui,sans-serif;color:var(--muted)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <p class="kicker">Cal. Civ. Code § 3111</p>
+  <h1>Training Data Transparency</h1>
+  <p class="meta">[[COMPANY NAME]] · [[GENERATIVE AI SYSTEM OR SERVICE NAME]]</p>
+  <div class="rule">
+    <strong>Instructions.</strong> Replace each placeholder with accurate high-level information for this system.
+    Ranges are allowed. Do not disclose trade secrets or raw data. Publish this page on your website
+    (recommended: <strong>/training-data</strong>) and link it from the footer. High-level summary only — not legal advice.
+  </div>
+  <h2>§ 3111(a)(1)–(2) · Sources and purpose</h2>
+  <div class="item"><p class="lab">Sources or owners of the datasets <span class="cite">(a)(1)</span></p><p class="val ph">[[e.g. publicly available internet data; licensed datasets; third-party providers; internal data]]</p></div>
+  <div class="item"><p class="lab">How the datasets further the intended purpose of the system <span class="cite">(a)(2)</span></p><p class="val ph">[[one or two sentences]]</p></div>
+  <h2>§ 3111(a)(3)–(4) · Scale and types</h2>
+  <div class="item"><p class="lab">Number of data points <span class="cite">(a)(3) — ranges or estimates OK</span></p><p class="val ph">[[e.g. tokens / images / hours — range acceptable]]</p></div>
+  <div class="item"><p class="lab">Types of data points <span class="cite">(a)(4) — labels if labeled; else general characteristics</span></p><p class="val ph">[[text; image; audio; video; code; label types if any]]</p></div>
+  <h2>§ 3111(a)(5)–(6) · IP and acquisition</h2>
+  <div class="item"><p class="lab">Copyright, trademark, or patent status <span class="cite">(a)(5)</span></p><p class="val ph">[[includes protected material / mixed / entirely public domain]]</p></div>
+  <div class="item"><p class="lab">Whether datasets were purchased or licensed <span class="cite">(a)(6)</span></p><p class="val ph">[[purchased; licensed; not purchased or licensed; mix]]</p></div>
+  <h2>§ 3111(a)(7)–(8) · Personal and aggregate information</h2>
+  <div class="item"><p class="lab">Personal information (Civ. Code § 1798.140(v)) <span class="cite">(a)(7)</span></p><p class="val ph">[[yes / no / may include — high level]]</p></div>
+  <div class="item"><p class="lab">Aggregate consumer information (Civ. Code § 1798.140(b)) <span class="cite">(a)(8)</span></p><p class="val ph">[[yes / no / not applicable]]</p></div>
+  <h2>§ 3111(a)(9) · Cleaning and processing</h2>
+  <div class="item"><p class="lab">Cleaning, processing, or other modification by the developer — and intended purpose of those efforts <span class="cite">(a)(9)</span></p><p class="val ph">[[e.g. filtered; deduplicated; moderated — and why, high level]]</p></div>
+  <h2>§ 3111(a)(10)–(11) · Timing</h2>
+  <div class="item"><p class="lab">Time period of data collection <span class="cite">(a)(10) — note if ongoing</span></p><p class="val ph">[[e.g. 2019–2025; ongoing]]</p></div>
+  <div class="item"><p class="lab">Dates datasets were first used in development <span class="cite">(a)(11)</span></p><p class="val ph">[[approximate date or period]]</p></div>
+  <h2>§ 3111(a)(12) · Synthetic data</h2>
+  <div class="item"><p class="lab">Whether the system used or continuously uses synthetic data generation <span class="cite">(a)(12)</span></p><p class="val ph">[[yes / no]]</p></div>
+  <div class="item"><p class="lab">Functional need or purpose of synthetic data (optional under (a)(12))</p><p class="val ph">[[if used — high level; otherwise remove this line]]</p></div>
+  <footer>
+    Document version [[1.0]] · Last updated [[DATE]] · Contact [[compliance@domain.com]]<br>
+    Posted on the developer’s website pursuant to California Civil Code § 3111. High-level summary only. Not legal advice.
+  </footer>
+</div>
+</body>
+</html>
