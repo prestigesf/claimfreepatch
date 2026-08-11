@@ -32,6 +32,20 @@ h1{font-size:clamp(1.7rem,5vw,2.25rem);line-height:1.1;font-weight:700;letter-sp
 .note{margin-top:24px;font-size:12px;color:#666;line-height:1.5}
 .sec{margin-top:18px;font-size:12px}
 .sec a{color:#666;text-decoration:underline;text-underline-offset:3px}.sec a:hover{color:var(--red)}
+.capture{margin:26px auto 0;max-width:22rem;text-align:left}
+.capture label{display:block;font:12px/1.4 ui-monospace,Menlo,monospace;color:var(--muted);margin-bottom:7px}
+.capture .field{display:flex;gap:8px}
+/* `hidden` is an attribute, `display:flex` is a rule — the rule wins unless
+   this says otherwise, which left the input on screen after submitting. */
+.capture [hidden],.capture.done .field{display:none}
+.capture input[type=email]{flex:1;min-width:0;background:#0d0d0d;border:1px solid var(--line);border-radius:8px;color:var(--ink);font:inherit;font-size:.9rem;padding:11px 12px}
+.capture input[type=email]:focus{outline:2px solid var(--red);outline-offset:1px;border-color:var(--red)}
+.capture button{background:transparent;border:1px solid var(--line);border-radius:8px;color:var(--muted);font:inherit;font-size:.85rem;font-weight:600;padding:11px 16px;cursor:pointer;white-space:nowrap}
+.capture button:hover:not(:disabled){border-color:var(--red);color:var(--red)}
+.capture button:disabled{opacity:.5;cursor:default}
+.capture .hint{margin-top:8px;font-size:11px;color:#666;line-height:1.5}
+.capture .ok{margin-top:8px;font-size:12px;color:var(--green)}
+.hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
 footer{border-top:1px solid var(--line);padding:16px 24px;font:11px/1 ui-monospace,Menlo,monospace;letter-spacing:.1em;text-transform:uppercase;color:#333;text-align:center}
 footer a{color:#555;text-decoration:none}footer a:hover{color:var(--red)}
 </style>
@@ -60,6 +74,19 @@ footer a{color:#555;text-decoration:none}footer a:hover{color:var(--red)}
       </ol>
     </div>
     <p class="note">High-level summary only. Not legal advice. Other laws may still apply.</p>
+    <form class="capture" name="patch-claim" method="POST" data-netlify="true"
+          netlify-honeypot="company-website" id="claimform">
+      <input type="hidden" name="form-name" value="patch-claim">
+      <p class="hp"><label>Leave this empty <input name="company-website" tabindex="-1" autocomplete="off"></label></p>
+      <label for="email">Want the follow-up? We will send the publish steps and tell you if § 3111 changes.</label>
+      <div class="field">
+        <input id="email" name="email" type="email" autocomplete="email"
+               placeholder="you@company.com" aria-describedby="capture-hint">
+        <button type="submit" id="sendme">Send it</button>
+      </div>
+      <p class="hint" id="capture-hint">Optional. The patch above is yours either way — this only adds the follow-up. No newsletter, no sharing.</p>
+      <p class="ok" id="capture-ok" hidden>Got it. Publish steps are on the way.</p>
+    </form>
     <p class="sec"><a id="badge" href="training-data-badge.html" download="training-data-badge.html">Optional footer badge</a></p>
   </main>
   <footer>DeadlineSF · <a href="https://deadlinesf.net">deadlinesf.net</a></footer>
@@ -82,6 +109,26 @@ async function ensure(e,file,name){
 }
 document.getElementById('dl').addEventListener('click',e=>ensure(e,'ab2013-disclosure.html','training-data-disclosure.html'));
 document.getElementById('badge').addEventListener('click',e=>ensure(e,'training-data-badge.html','training-data-badge.html'));
+const form=document.getElementById('claimform');
+form.addEventListener('submit',async e=>{
+  e.preventDefault();
+  const email=document.getElementById('email');
+  if(!email.value||!email.checkValidity()){email.reportValidity();return}
+  const btn=document.getElementById('sendme');
+  btn.disabled=true;btn.textContent='Sending';
+  // Netlify Forms accepts a urlencoded POST to any path on the site; form-name
+  // is what routes it to the right form in the Forms tab.
+  try{
+    await fetch('/',{method:'POST',
+      headers:{'Content-Type':'application/x-www-form-urlencoded'},
+      body:new URLSearchParams(new FormData(form)).toString()});
+  }catch(_){}
+  // Never leave them stuck on "Sending". A failed capture costs us a lead; it
+  // must not cost them the patch or make the page look broken.
+  form.querySelector('.field').hidden=true;
+  document.getElementById('capture-hint').hidden=true;
+  document.getElementById('capture-ok').hidden=false;
+});
 try{
   const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
   if(SR){const r=new SR();r.continuous=true;r.interimResults=false;r.lang='en-US';
