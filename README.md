@@ -25,3 +25,20 @@ form injected by JavaScript alone is never registered.
 Connect this repo to site **claimfreepatch** · branch `main` · publish directory empty.
 
 Live: https://claimfreepatch.netlify.app
+
+## The background
+
+`index.html` paints an ink-in-water field on a canvas behind the page. Value
+noise folded back through itself twice — that domain warp is what makes it read
+as liquid rather than as drifting fog.
+
+It renders into a 150x96 buffer and stretches across the viewport, so the cost
+is a few thousand samples a frame regardless of screen size, and the upscale
+blur does the smoothing. It runs at ~18fps because water is slow, pauses when
+the tab is hidden, and does not render at all under
+`prefers-reduced-motion: reduce`.
+
+The palette is deliberate: cold and nearly black, blue channel leading, red held
+to a trace at the brightest points. It sits behind a reading column, so it is
+texture rather than decoration. Raising the amplitude turns it into red smoke
+and eats the copy — this was tried.

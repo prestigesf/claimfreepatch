@@ -11,22 +11,47 @@
 :root{--bg:#050505;--ink:#f2f2f2;--muted:#888;--line:#1a1a1a;--red:#ff3b2f;--green:#46e6a0}
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{min-height:100%}
-body{background:var(--bg);color:var(--ink);font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;display:flex;flex-direction:column;min-height:100vh}
-a{color:inherit;transition:color .15s}a:hover{color:var(--red)}
+body{background:var(--bg);color:var(--ink);font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;display:flex;flex-direction:column;min-height:100vh;position:relative}
+/* The ink layer. Rendered small and scaled up — the browser's own smoothing is
+   what makes it read as liquid rather than as pixels, and it keeps a full-screen
+   animation cheap enough to leave running. */
+#ink{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none;
+  filter:blur(18px) contrast(1.35);opacity:1}
+/* A vignette so the ink stays at the edges and never fights the reading column. */
+#ink+.veil{position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:radial-gradient(ellipse 58% 48% at 50% 44%,rgba(5,5,5,.99) 0%,rgba(5,5,5,.94) 38%,rgba(5,5,5,.62) 72%,rgba(5,5,5,.30) 100%)}
+.top,main,footer{position:relative;z-index:1}
+a{color:inherit;text-decoration:none;position:relative;
+  transition:color .28s cubic-bezier(.2,.7,.3,1),text-shadow .28s cubic-bezier(.2,.7,.3,1),letter-spacing .28s cubic-bezier(.2,.7,.3,1)}
+a:hover,a:focus-visible{color:var(--red);letter-spacing:.02em;
+  text-shadow:0 0 1px rgba(255,59,47,.9),0 0 10px rgba(255,59,47,.55),0 0 28px rgba(255,59,47,.28)}
+/* The underline grows from the centre instead of appearing. */
+a:not(.cta):not(.btn)::after{content:"";position:absolute;left:50%;right:50%;bottom:-3px;height:1px;
+  background:var(--red);box-shadow:0 0 8px rgba(255,59,47,.8);
+  transition:left .28s cubic-bezier(.2,.7,.3,1),right .28s cubic-bezier(.2,.7,.3,1)}
+a:not(.cta):not(.btn):hover::after,a:not(.cta):not(.btn):focus-visible::after{left:0;right:0}
+@media (prefers-reduced-motion:reduce){
+  a,a::after{transition:none}
+  #ink{display:none}
+}
 .top{display:flex;justify-content:space-between;align-items:center;padding:18px 24px;border-bottom:1px solid var(--line);font:12px/1 ui-monospace,Menlo,monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
 .top a{color:var(--muted);text-decoration:none}.top a:hover{color:var(--red)}
 .mark{color:var(--ink)}.mark span{color:var(--red)}
 main{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:56px 20px 72px;max-width:500px;margin:0 auto;width:100%}
 h1{font-size:clamp(1.7rem,5vw,2.25rem);line-height:1.1;font-weight:700;letter-spacing:-.03em;margin-bottom:14px}
 .sub{color:var(--muted);font-size:.95rem;line-height:1.5;margin-bottom:32px}
-.cta{appearance:none;border:0;cursor:pointer;background:var(--red);color:#fff;font-weight:700;font-size:1rem;padding:16px 32px;border-radius:8px}
-.cta:hover{background:#ff5248}
+.cta{appearance:none;border:0;cursor:pointer;background:var(--red);color:#fff;font-weight:700;font-size:1rem;padding:16px 32px;border-radius:8px;
+  transition:background .28s,box-shadow .28s,transform .28s cubic-bezier(.2,.7,.3,1)}
+.cta:hover,.cta:focus-visible{background:#ff5248;transform:translateY(-1px);
+  box-shadow:0 0 0 1px rgba(255,59,47,.5),0 6px 30px rgba(255,59,47,.42)}
 .voice{margin-top:14px;font:12px/1.4 ui-monospace,Menlo,monospace;color:var(--muted)}
 .voice b{color:var(--ink)}
 #done{display:none;width:100%}
 .check{width:52px;height:52px;border-radius:50%;border:1px solid var(--green);display:flex;align-items:center;justify-content:center;margin:0 auto 18px;color:var(--green);font-size:1.35rem}
 .btn{display:inline-block;padding:14px 28px;border-radius:8px;background:var(--red);color:#fff;font-weight:700;font-size:.95rem;text-decoration:none}
-.btn:hover{background:#ff5248;color:#fff}
+.btn{transition:background .28s,box-shadow .28s,transform .28s cubic-bezier(.2,.7,.3,1)}
+.btn:hover,.btn:focus-visible{background:#ff5248;color:#fff;transform:translateY(-1px);
+  box-shadow:0 0 0 1px rgba(255,59,47,.5),0 6px 30px rgba(255,59,47,.42)}
 .steps{text-align:left;margin:28px auto 0;max-width:32ch;font-size:13px;color:var(--muted);line-height:1.6}
 .steps ol{margin:8px 0 0 1.1em;padding:0}
 .note{margin-top:24px;font-size:12px;color:#666;line-height:1.5}
@@ -51,6 +76,7 @@ footer a{color:#555;text-decoration:none}footer a:hover{color:var(--red)}
 </style>
 </head>
 <body>
+  <canvas id="ink" aria-hidden="true"></canvas><div class="veil" aria-hidden="true"></div>
   <div class="top">
     <div class="mark">//DEADLINE<span>SF</span></div>
     <a href="https://deadlinesf.net">deadlinesf.net</a>
@@ -91,6 +117,83 @@ footer a{color:#555;text-decoration:none}footer a:hover{color:var(--red)}
   </main>
   <footer>DeadlineSF · <a href="https://deadlinesf.net">deadlinesf.net</a></footer>
 <script>
+/* Ink in water.
+ *
+ * Value noise, folded back through itself twice so the flow bends around its
+ * own currents — that domain warp is what separates drifting fog from something
+ * that looks like liquid. Rendered into a ~150px buffer and stretched across
+ * the viewport, so the cost is a few thousand samples a frame no matter how big
+ * the screen is, and the upscale blur does the smoothing for free.
+ *
+ * It stays almost black on purpose. This sits behind a reading column, so it is
+ * texture, not decoration: the brightest it ever gets is a faint cold highlight
+ * where currents meet, with the red only ever a rumour at the deepest points.
+ */
+(function ink(){
+  const cv = document.getElementById('ink');
+  if (!cv || !cv.getContext) return;
+  if (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const ctx = cv.getContext('2d', { alpha: false });
+  if (!ctx) return;
+
+  const W = 150, H = 96;                 // buffer size; screen size is irrelevant
+  cv.width = W; cv.height = H;
+  const img = ctx.createImageData(W, H);
+  const px = img.data;
+
+  // Hash-based value noise. Deterministic, no tables to allocate.
+  function vn(x, y) {
+    const xi = Math.floor(x), yi = Math.floor(y);
+    const xf = x - xi, yf = y - yi;
+    const u = xf * xf * (3 - 2 * xf), v = yf * yf * (3 - 2 * yf);
+    const h = (a, b) => {
+      let n = a * 374761393 + b * 668265263;
+      n = (n ^ (n >> 13)) * 1274126177;
+      return ((n ^ (n >> 16)) & 0xffff) / 0xffff;
+    };
+    const a = h(xi, yi), b = h(xi + 1, yi), c = h(xi, yi + 1), d = h(xi + 1, yi + 1);
+    return (a * (1 - u) + b * u) * (1 - v) + (c * (1 - u) + d * u) * v;
+  }
+  function fbm(x, y) {
+    return vn(x, y) * 0.5 + vn(x * 2.03, y * 2.03) * 0.3 + vn(x * 4.07, y * 4.07) * 0.2;
+  }
+
+  let t = 0, raf = 0, last = 0;
+  function frame(now) {
+    raf = requestAnimationFrame(frame);
+    if (now - last < 55) return;          // ~18fps; water is slow, and this is cheap
+    last = now; t += 0.0042;
+
+    for (let y = 0; y < H; y++) {
+      for (let x = 0; x < W; x++) {
+        const nx = x / 34, ny = y / 34;
+        // Two warps: the second reads a field the first has already bent.
+        const wx = fbm(nx + t, ny - t * 0.6);
+        const wy = fbm(nx - t * 0.45, ny + t * 0.8);
+        const v = fbm(nx + wx * 2.4, ny + wy * 2.4);
+        const s = Math.pow(Math.max(0, Math.min(1, (v - 0.30) / 0.44)), 1.7);
+
+        const i = (y * W + x) * 4;
+        // Cold and nearly black. The blue channel leads so the highlights read
+        // as light through water rather than as coloured smoke; red is held
+        // back to a trace at the very brightest points, where it registers as
+        // warmth rather than as the brand colour bleeding into the background.
+        px[i]     = 4 + s * 9;
+        px[i + 1] = 5 + s * 13;
+        px[i + 2] = 7 + s * 20;
+        px[i + 3] = 255;
+      }
+    }
+    ctx.putImageData(img, 0, 0);
+  }
+  raf = requestAnimationFrame(frame);
+
+  // Stop when the tab is hidden; a background tab should not burn a phone battery.
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) { cancelAnimationFrame(raf); raf = 0; }
+    else if (!raf) { last = 0; raf = requestAnimationFrame(frame); }
+  });
+})();
 function install(){
   document.getElementById('offer').style.display='none';
   document.getElementById('done').style.display='block';
