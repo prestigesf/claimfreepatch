@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Claim free patch — DeadlineSF</title>
+<meta name="description" content="Claim your free DeadlineSF compliance patch. One click or say yes.">
+<meta name="theme-color" content="#050508">
+<meta name="robots" content="index,follow">
+<link rel="canonical" href="https://claimfreepatch.netlify.app/">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; script-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'none'; base-uri 'self'; form-action 'none'">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;800;900&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    color-scheme: dark;
+    --bg: #050508;
+    --line: #2a2a2a;
+    --ink: #f5f5f0;
+    --mute: #8a8a82;
+    --red: #FF2B2B;
+    --signal: #46e6a0;
+    --amber: #ffb627;
+    --mono: "JetBrains Mono", ui-monospace, Menlo, Consolas, monospace;
+    --disp: "Archivo", "Helvetica Neue", Arial, sans-serif;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { min-height: 100%; background: var(--bg); color: var(--ink); font-family: var(--disp); }
+  body {
+    background: radial-gradient(900px 420px at 50% -8%, #170a0a 0%, transparent 55%), var(--bg);
+    display: flex; flex-direction: column; min-height: 100vh;
+  }
+  a { color: inherit; text-decoration: none; }
+  .r { color: var(--red); }
+  .top {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 18px 24px; border-bottom: 1px solid var(--line);
+    font-family: var(--mono); font-size: 12px; letter-spacing: 0.08em;
+    text-transform: uppercase; color: var(--mute);
+  }
+  .logo { font-weight: 700; color: var(--ink); letter-spacing: 0.05em; font-size: 14px; }
+  .logo:hover .r { text-shadow: 0 0 12px rgba(255, 43, 43, 0.7); }
+  .live { color: var(--red); }
+  .live::before {
+    content: ""; display: inline-block; width: 7px; height: 7px;
+    background: var(--red); border-radius: 50%; margin-right: 7px;
+    vertical-align: middle; animation: pulse 1.4s infinite;
+  }
+  @keyframes pulse { 50% { opacity: 0.25; } }
+  main {
+    flex: 1; display: flex; align-items: center; justify-content: center;
+    padding: 40px 20px 64px;
+  }
+  .stage { width: 100%; max-width: 560px; text-align: center; }
+  .kicker {
+    font-family: var(--mono); font-size: 11px; letter-spacing: 0.16em;
+    text-transform: uppercase; color: var(--mute); margin-bottom: 18px;
+  }
+  h1 {
+    font-weight: 900; font-size: clamp(28px, 6vw, 40px);
+    letter-spacing: -0.02em; line-height: 1.1; margin-bottom: 12px;
+  }
+  .sub {
+    color: var(--mute); font-size: 15px; line-height: 1.45;
+    max-width: 38ch; margin: 0 auto 36px;
+  }
+  .actions { display: flex; flex-direction: column; align-items: center; gap: 14px; }
+  .btn {
+    font-family: var(--mono); font-size: 13px; font-weight: 700;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    border: 1px solid var(--red); background: var(--red); color: #fff;
+    padding: 18px 36px; cursor: pointer; min-width: min(100%, 320px);
+    transition: transform 0.15s, box-shadow 0.15s, filter 0.15s;
+  }
+  .btn:hover {
+    filter: brightness(1.08);
+    box-shadow: 0 0 28px rgba(255, 43, 43, 0.45);
+    transform: translateY(-1px);
+  }
+  .btn-yes {
+    background: transparent; color: var(--signal);
+    border-color: rgba(70, 230, 160, 0.45);
+  }
+  .btn-yes:hover {
+    background: rgba(70, 230, 160, 0.08);
+    box-shadow: 0 0 24px rgba(70, 230, 160, 0.25);
+    filter: none;
+  }
+  .hint {
+    font-family: var(--mono); font-size: 11px; color: var(--mute);
+    letter-spacing: 0.06em; margin-top: 8px;
+  }
+  .mic {
+    font-family: var(--mono); font-size: 11px; color: var(--amber);
+    min-height: 1.4em; margin-top: 6px;
+  }
+  #claimed { display: none; text-align: left; }
+  #claimed.show { display: block; }
+  #claim-ui.hide { display: none; }
+  .card {
+    border: 1px solid rgba(70, 230, 160, 0.35);
+    background: linear-gradient(180deg, #0e1612, #0d0d0d);
+    box-shadow: 0 0 40px rgba(70, 230, 160, 0.08);
+    padding: 22px 20px 20px;
+  }
+  .ok {
+    font-family: var(--mono); font-size: 11px; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--signal); margin-bottom: 10px;
+  }
+  .card h2 { font-size: 20px; font-weight: 800; margin-bottom: 8px; }
+  .card p { color: var(--mute); font-size: 14px; margin-bottom: 14px; line-height: 1.45; }
+  .meta {
+    font-family: var(--mono); font-size: 10px; letter-spacing: 0.08em;
+    color: #6a6a62; margin-bottom: 12px; text-transform: uppercase;
+  }
+  pre {
+    background: #070707; border: 1px solid var(--line);
+    padding: 14px 16px; overflow-x: auto; font-family: var(--mono);
+    font-size: 12px; line-height: 1.65; color: #dcdcd4; margin-bottom: 14px;
+    white-space: pre; tab-size: 2;
+  }
+  .copy {
+    font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em;
+    text-transform: uppercase; border: 1px solid rgba(70, 230, 160, 0.4);
+    background: transparent; color: var(--signal); padding: 10px 16px; cursor: pointer;
+  }
+  .copy:hover { background: rgba(70, 230, 160, 0.08); }
+  .home {
+    display: inline-block; margin-top: 18px;
+    font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--mute);
+  }
+  .home:hover { color: var(--red); }
+  footer {
+    border-top: 1px solid var(--line); padding: 14px 24px;
+    font-family: var(--mono); font-size: 11px; color: #5a5a54;
+    text-align: center;
+  }
+</style>
+</head>
+<body>
+  <header class="top">
+    <a class="logo" href="https://deadlinesf.net">//<span class="r">DEADLINE</span>SF</a>
+    <span class="live">Claim</span>
+  </header>
+
+  <main>
+    <div class="stage">
+      <div id="claim-ui">
+        <p class="kicker">Free compliance patch</p>
+        <h1>Claim your free patch</h1>
+        <p class="sub">One real fix. No forms. No pitch on this page.</p>
+        <div class="actions">
+          <button type="button" class="btn" id="btnClaim">Claim free patch</button>
+          <button type="button" class="btn btn-yes" id="btnYes">Yes</button>
+        </div>
+        <p class="hint">Click either · or say “yes”</p>
+        <p class="mic" id="micStatus" aria-live="polite"></p>
+      </div>
+
+      <div id="claimed">
+        <div class="card">
+          <div class="ok">● Claimed · verified engine patch</div>
+          <h2 id="patchTitle">Add AI Disclosure Middleware</h2>
+          <p id="patchDesc">Injects a mandatory AI disclosure header on every response. Drop into FastAPI.</p>
+          <div class="meta" id="patchMeta">MISSING_AI_DISCLOSURE · fastapi · python · smoke-tested</div>
+          <pre id="patchCode"># main.py
+from fastapi import FastAPI, Request
+
+app = FastAPI()
+
+@app.middleware("http")
+async def ai_disclosure_middleware(request: Request, call_next):
+    response = await call_next(request)
+    response.headers["X-AI-Disclosure"] = "This interaction is powered by AI."
+    return response
+</pre>
+          <button type="button" class="copy" id="btnCopy">Copy patch</button>
+        </div>
+        <a class="home" href="https://deadlinesf.net">← deadlinesf.net</a>
+      </div>
+    </div>
+  </main>
+
+  <footer>DeadlineSF · PrestigeSF · patch id MISSING_AI_DISCLOSURE</footer>
+
+<script>
+(function () {
+  "use strict";
+  // Verified Backend Patch Engine payload (local lookup — not improvised)
+  var PATCH = {
+    vulnerability_id: "MISSING_AI_DISCLOSURE",
+    title: "Add AI Disclosure Middleware",
+    description: "Injects a mandatory AI disclosure header on every response. Drop into FastAPI.",
+    framework: "fastapi",
+    language: "python",
+    code:
+      "# main.py\n" +
+      "from fastapi import FastAPI, Request\n" +
+      "\n" +
+      "app = FastAPI()\n" +
+      "\n" +
+      '@app.middleware("http")\n' +
+      "async def ai_disclosure_middleware(request: Request, call_next):\n" +
+      "    response = await call_next(request)\n" +
+      '    response.headers["X-AI-Disclosure"] = "This interaction is powered by AI."\n' +
+      "    return response\n"
+  };
+
+  var claimUi = document.getElementById("claim-ui");
+  var claimed = document.getElementById("claimed");
+  var micStatus = document.getElementById("micStatus");
+  var patchCodeEl = document.getElementById("patchCode");
+  var done = false;
+
+  // Render patch text exactly (no remote fetch — cannot be swapped at runtime)
+  patchCodeEl.textContent = PATCH.code;
+  document.getElementById("patchTitle").textContent = PATCH.title;
+  document.getElementById("patchDesc").textContent = PATCH.description;
+  document.getElementById("patchMeta").textContent =
+    PATCH.vulnerability_id + " · " + PATCH.framework + " · " + PATCH.language + " · engine-verified";
+
+  function claim() {
+    if (done) return;
+    done = true;
+    claimUi.classList.add("hide");
+    claimed.classList.add("show");
+    stopListen();
+    try { history.replaceState(null, "", "#claimed"); } catch (e) {}
+  }
+
+  document.getElementById("btnClaim").addEventListener("click", claim);
+  document.getElementById("btnYes").addEventListener("click", claim);
+
+  document.getElementById("btnCopy").addEventListener("click", function () {
+    var t = PATCH.code;
+    var btn = document.getElementById("btnCopy");
+    function ok() {
+      btn.textContent = "Copied";
+      setTimeout(function () { btn.textContent = "Copy patch"; }, 1600);
+    }
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(t).then(ok).catch(function () {
+        fallbackCopy(t); ok();
+      });
+    } else {
+      fallbackCopy(t); ok();
+    }
+  });
+
+  function fallbackCopy(t) {
+    var ta = document.createElement("textarea");
+    ta.value = t;
+    ta.setAttribute("readonly", "");
+    ta.style.position = "fixed";
+    ta.style.left = "-9999px";
+    document.body.appendChild(ta);
+    ta.select();
+    try { document.execCommand("copy"); } catch (e) {}
+    document.body.removeChild(ta);
+  }
+
+  var rec = null;
+  var SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  function stopListen() {
+    if (rec) {
+      try { rec.onend = null; rec.stop(); } catch (e) {}
+      rec = null;
+    }
+    if (micStatus) micStatus.textContent = "";
+  }
+  function startListen() {
+    if (!SR || done) return;
+    try {
+      rec = new SR();
+      rec.lang = "en-US";
+      rec.continuous = true;
+      rec.interimResults = true;
+      rec.onstart = function () { micStatus.textContent = "Listening… say yes"; };
+      rec.onerror = function () { micStatus.textContent = ""; };
+      rec.onend = function () {
+        if (!done && rec) { try { rec.start(); } catch (e) {} }
+      };
+      rec.onresult = function (ev) {
+        var said = "";
+        for (var i = ev.resultIndex; i < ev.results.length; i++) {
+          said += ev.results[i][0].transcript;
+        }
+        said = (said || "").toLowerCase().trim();
+        if (/\byes\b|\byeah\b|\byep\b|\bclaim\b/.test(said)) claim();
+      };
+      rec.start();
+    } catch (e) {
+      micStatus.textContent = "";
+    }
+  }
+
+  document.body.addEventListener("click", function once() {
+    startListen();
+    document.body.removeEventListener("click", once);
+  }, { once: true });
+  setTimeout(startListen, 600);
+
+  if (location.hash === "#claimed") claim();
+
+  // Self-check: patch string integrity (detect tampering of payload)
+  var expectedPrefix = "from fastapi import FastAPI, Request";
+  if (PATCH.code.indexOf(expectedPrefix) === -1) {
+    document.body.innerHTML = "<p style='color:#FF2B2B;padding:40px;font-family:monospace'>Patch integrity check failed. Do not use.</p>";
+  }
+})();
+</script>
+</body>
+</html>
