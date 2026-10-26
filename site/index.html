@@ -160,10 +160,11 @@
 
       <div id="claimed">
         <div class="card">
-          <div class="ok">● Claimed · verified engine patch</div>
+          <div class="ok" id="patchStatus">● Claimed · checking patch SHA-256…</div>
           <h2 id="patchTitle">Add AI Disclosure Middleware</h2>
           <p id="patchDesc">Injects a mandatory AI disclosure header on every response. Drop into FastAPI.</p>
-          <div class="meta" id="patchMeta">MISSING_AI_DISCLOSURE · fastapi · python · smoke-tested</div>
+          <div class="meta" id="patchMeta">MISSING_AI_DISCLOSURE · fastapi · python · smoke test: site/tests/test_free_patch.py</div>
+          <div class="meta" id="patchHash" style="word-break:break-all">sha256 ffb16c5eafa530b7327e5e92b95fd7d2687c283b946f157f95d007cca29c0448</div>
           <pre id="patchCode"># main.py
 from fastapi import FastAPI, Request
 
@@ -187,7 +188,9 @@ async def ai_disclosure_middleware(request: Request, call_next):
 <script>
 (function () {
   "use strict";
-  // Verified Backend Patch Engine payload (local lookup — not improvised)
+  // Patch payload. Same bytes as site/patch/main.py; site/tests/test_free_patch.py
+  // runs it under FastAPI and checks PATCH_SHA256 is its real hash.
+  var PATCH_SHA256 = "ffb16c5eafa530b7327e5e92b95fd7d2687c283b946f157f95d007cca29c0448";
   var PATCH = {
     vulnerability_id: "MISSING_AI_DISCLOSURE",
     title: "Add AI Disclosure Middleware",
@@ -218,7 +221,7 @@ async def ai_disclosure_middleware(request: Request, call_next):
   document.getElementById("patchTitle").textContent = PATCH.title;
   document.getElementById("patchDesc").textContent = PATCH.description;
   document.getElementById("patchMeta").textContent =
-    PATCH.vulnerability_id + " · " + PATCH.framework + " · " + PATCH.language + " · engine-verified";
+    PATCH.vulnerability_id + " · " + PATCH.framework + " · " + PATCH.language + " · smoke test: site/tests/test_free_patch.py";
 
   function claim() {
     if (done) return;
@@ -303,10 +306,32 @@ async def ai_disclosure_middleware(request: Request, call_next):
 
   if (location.hash === "#claimed") claim();
 
-  // Self-check: patch string integrity (detect tampering of payload)
-  var expectedPrefix = "from fastapi import FastAPI, Request";
-  if (PATCH.code.indexOf(expectedPrefix) === -1) {
-    document.body.innerHTML = "<p style='color:#FF2B2B;padding:40px;font-family:monospace'>Patch integrity check failed. Do not use.</p>";
+  // Real integrity check: SHA-256 of the exact patch text, computed in this
+  // browser, compared with the pinned hash (the smoke test proves the pin).
+  var statusEl = document.getElementById("patchStatus");
+  var hashEl = document.getElementById("patchHash");
+  function failIntegrity(msg) {
+    statusEl.textContent = "Patch integrity check failed. Do not use.";
+    statusEl.style.color = "#FF2B2B";
+    hashEl.textContent = msg;
+    document.getElementById("btnCopy").disabled = true;
+  }
+  if (window.crypto && crypto.subtle && window.TextEncoder) {
+    crypto.subtle.digest("SHA-256", new TextEncoder().encode(PATCH.code)).then(function (buf) {
+      var hex = Array.prototype.map.call(new Uint8Array(buf), function (b) {
+        return ("0" + b.toString(16)).slice(-2);
+      }).join("");
+      if (hex === PATCH_SHA256) {
+        statusEl.textContent = "● Claimed · SHA-256 matches, checked in your browser";
+        hashEl.textContent = "sha256 " + hex;
+      } else {
+        failIntegrity("sha256 " + hex + " (expected " + PATCH_SHA256 + ")");
+      }
+    }).catch(function () {
+      statusEl.textContent = "● Claimed · this browser could not run the SHA-256 check";
+    });
+  } else {
+    statusEl.textContent = "● Claimed · this browser could not run the SHA-256 check";
   }
 })();
 </script>
