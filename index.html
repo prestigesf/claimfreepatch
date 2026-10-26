@@ -59,6 +59,7 @@ footer a{color:#555;text-decoration:none}footer a:hover{color:var(--red)}
         <li>Link “Training data” from your footer.</li>
       </ol>
     </div>
+    <p class="note" id="integrity" style="word-break:break-all">Checking file SHA-256…</p>
     <p class="note">High-level summary only. Not legal advice. Other laws may still apply.</p>
     <p class="sec"><a id="badge" href="training-data-badge.html" download="training-data-badge.html">Optional footer badge</a></p>
   </main>
@@ -72,10 +73,29 @@ function install(){
 document.getElementById('go').addEventListener('click',install);
 if(location.hash==='#claimed')install();
 const RAW='https://raw.githubusercontent.com/prestigesf/claimfreepatch/main/';
+// Real integrity check: SHA-256 of the exact file bytes, computed in this
+// browser, compared with the pinned hash of the file in this repo.
+const SHA256={'ab2013-disclosure.html':'16e1a466fb15f2d75263d685ae1b1a3695b2004521991f8bee56310982e4da0f','training-data-badge.html':'7da1d5ae58f0c21494e2c8d65a201230f0a7147513f8fe193bb92e3fd43f4381'};
+async function sha256(buf){const d=await crypto.subtle.digest('SHA-256',buf);return Array.from(new Uint8Array(d),b=>b.toString(16).padStart(2,'0')).join('')}
+async function checkAll(){
+  const el=document.getElementById('integrity');
+  if(!(window.crypto&&crypto.subtle)){el.textContent='This browser could not run the SHA-256 check.';return}
+  const out=[];let ok=true;
+  for(const f of Object.keys(SHA256)){
+    try{const h=await sha256(await (await fetch(f,{cache:'no-store'})).arrayBuffer());
+      if(h===SHA256[f])out.push(f+' sha256 '+h+' ✓');else{ok=false;out.push(f+' sha256 '+h+' (expected '+SHA256[f]+')')}}
+    catch(_){ok=false;out.push(f+': could not be checked')}
+  }
+  el.textContent=(ok?'SHA-256 matches, checked in your browser · ':'Integrity check failed. Do not use. · ')+out.join(' · ');
+  if(!ok)el.style.color='#FF2B2B';
+}
+checkAll();
 async function ensure(e,file,name){
   try{const r=await fetch(file,{method:'HEAD'});if(r.ok)return}catch(_){}
   e.preventDefault();
-  const res=await fetch(RAW+file);const t=await res.text();
+  const res=await fetch(RAW+file);const buf=await res.arrayBuffer();
+  if(await sha256(buf)!==SHA256[file]){document.getElementById('integrity').textContent='Integrity check failed for '+file+'. Do not use.';return}
+  const t=new TextDecoder().decode(buf);
   const url=URL.createObjectURL(new Blob([t],{type:'text/html'}));
   const a=document.createElement('a');a.href=url;a.download=name;a.click();
   setTimeout(()=>URL.revokeObjectURL(url),1500);
