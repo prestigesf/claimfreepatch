@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Free patch — DeadlineSF</title>
+<meta name="description" content="Free Cal. Civ. Code § 3111 training-data disclosure. Publish on your domain. We do not access your systems.">
+<meta name="theme-color" content="#050505">
+<link rel="canonical" href="https://claimfreepatch.netlify.app/">
+<style>
+:root{--bg:#050505;--ink:#f2f2f2;--muted:#888;--line:#1a1a1a;--red:#ff3b2f;--green:#46e6a0}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{min-height:100%}
+body{background:var(--bg);color:var(--ink);font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;display:flex;flex-direction:column;min-height:100vh}
+a{color:inherit;transition:color .15s}a:hover{color:var(--red)}
+.top{display:flex;justify-content:space-between;align-items:center;padding:18px 24px;border-bottom:1px solid var(--line);font:12px/1 ui-monospace,Menlo,monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.top a{color:var(--muted);text-decoration:none}.top a:hover{color:var(--red)}
+.mark{color:var(--ink)}.mark span{color:var(--red)}
+main{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:56px 20px 72px;max-width:500px;margin:0 auto;width:100%}
+h1{font-size:clamp(1.7rem,5vw,2.25rem);line-height:1.1;font-weight:700;letter-spacing:-.03em;margin-bottom:14px}
+.sub{color:var(--muted);font-size:.95rem;line-height:1.5;margin-bottom:32px}
+.cta{appearance:none;border:0;cursor:pointer;background:var(--red);color:#fff;font-weight:700;font-size:1rem;padding:16px 32px;border-radius:8px}
+.cta:hover{background:#ff5248}
+.voice{margin-top:14px;font:12px/1.4 ui-monospace,Menlo,monospace;color:var(--muted)}
+.voice b{color:var(--ink)}
+#done{display:none;width:100%}
+.check{width:52px;height:52px;border-radius:50%;border:1px solid var(--green);display:flex;align-items:center;justify-content:center;margin:0 auto 18px;color:var(--green);font-size:1.35rem}
+.btn{display:inline-block;padding:14px 28px;border-radius:8px;background:var(--red);color:#fff;font-weight:700;font-size:.95rem;text-decoration:none}
+.btn:hover{background:#ff5248;color:#fff}
+.steps{text-align:left;margin:28px auto 0;max-width:32ch;font-size:13px;color:var(--muted);line-height:1.6}
+.steps ol{margin:8px 0 0 1.1em;padding:0}
+.note{margin-top:24px;font-size:12px;color:#666;line-height:1.5}
+.sec{margin-top:18px;font-size:12px}
+.sec a{color:#666;text-decoration:underline;text-underline-offset:3px}.sec a:hover{color:var(--red)}
+footer{border-top:1px solid var(--line);padding:16px 24px;font:11px/1 ui-monospace,Menlo,monospace;letter-spacing:.1em;text-transform:uppercase;color:#333;text-align:center}
+footer a{color:#555;text-decoration:none}footer a:hover{color:var(--red)}
+</style>
+</head>
+<body>
+  <div class="top">
+    <div class="mark">//DEADLINE<span>SF</span></div>
+    <a href="https://deadlinesf.net">deadlinesf.net</a>
+  </div>
+  <main id="offer">
+    <h1>Free § 3111 patch</h1>
+    <p class="sub">Training-data disclosure mapped to California Civil Code § 3111(a)(1)–(12). You publish it on your domain. We do not access your systems.</p>
+    <button class="cta" id="go" type="button">Get free patch</button>
+    <p class="voice">or say <b>yes</b></p>
+  </main>
+  <main id="done">
+    <div class="check">✓</div>
+    <h1>Ready</h1>
+    <p class="sub">One file. Every statutory element labeled.</p>
+    <a class="btn" id="dl" href="ab2013-disclosure.html" download="training-data-disclosure.html">Download disclosure</a>
+    <div class="steps">
+      <ol>
+        <li>Fill each field with high-level facts.</li>
+        <li>Publish at <strong>/training-data</strong>.</li>
+        <li>Link “Training data” from your footer.</li>
+      </ol>
+    </div>
+    <p class="note">High-level summary only. Not legal advice. Other laws may still apply.</p>
+    <p class="sec"><a id="badge" href="training-data-badge.html" download="training-data-badge.html">Optional footer badge</a></p>
+  </main>
+  <footer>DeadlineSF · <a href="https://deadlinesf.net">deadlinesf.net</a></footer>
+<script>
+function install(){
+  document.getElementById('offer').style.display='none';
+  document.getElementById('done').style.display='block';
+  try{history.replaceState(null,'','#claimed')}catch(_){}
+}
+document.getElementById('go').addEventListener('click',install);
+if(location.hash==='#claimed')install();
+const RAW='https://raw.githubusercontent.com/prestigesf/claimfreepatch/main/';
+async function ensure(e,file,name){
+  try{const r=await fetch(file,{method:'HEAD'});if(r.ok)return}catch(_){}
+  e.preventDefault();
+  const res=await fetch(RAW+file);const t=await res.text();
+  const url=URL.createObjectURL(new Blob([t],{type:'text/html'}));
+  const a=document.createElement('a');a.href=url;a.download=name;a.click();
+  setTimeout(()=>URL.revokeObjectURL(url),1500);
+}
+document.getElementById('dl').addEventListener('click',e=>ensure(e,'ab2013-disclosure.html','training-data-disclosure.html'));
+document.getElementById('badge').addEventListener('click',e=>ensure(e,'training-data-badge.html','training-data-badge.html'));
+try{
+  const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+  if(SR){const r=new SR();r.continuous=true;r.interimResults=false;r.lang='en-US';
+    r.onresult=e=>{const t=e.results[e.results.length-1][0].transcript.toLowerCase();
+      if(/\byes\b|\byeah\b|\bsure\b|\bok\b|\bokay\b/.test(t))install()};
+    document.body.addEventListener('click',()=>{try{r.start()}catch(_){}},{once:true});
+  }
+}catch(_){}
+</script>
+</body>
+</html>
