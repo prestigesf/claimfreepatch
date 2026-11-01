@@ -6,3 +6,13 @@
   [headers.values]
     X-Frame-Options = "DENY"
     X-Content-Type-Options = "nosniff"
+
+[[redirects]]
+  from = "/ab2013-disclosure"
+  to = "/ab2013-disclosure.html"
+  status = 200
+
+[[redirects]]
+  from = "/training-data-badge"
+  to = "/training-data-badge.html"
+  status = 200
