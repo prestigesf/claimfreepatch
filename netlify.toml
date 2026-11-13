@@ -6,11 +6,29 @@
   [headers.values]
     X-Frame-Options = "DENY"
     X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "no-referrer"
+    # The generator runs in the browser. connect-src 'none' blocks every
+    # fetch/XHR/WebSocket/beacon, so scanned code and answers cannot leave.
+    Content-Security-Policy = "default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'none'; form-action 'none'; base-uri 'none'; frame-ancestors 'none'"
 
+# The old one-size placeholder file is no longer handed out.
 [[redirects]]
   from = "/ab2013-disclosure"
-  to = "/ab2013-disclosure.html"
-  status = 200
+  to = "/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/ab2013-disclosure.html"
+  to = "/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/site/*"
+  to = "/"
+  status = 301
+  force = true
 
 [[redirects]]
   from = "/training-data-badge"

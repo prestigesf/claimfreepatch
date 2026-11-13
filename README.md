@@ -1,13 +1,12 @@
 # claimfreepatch
 
-Free Cal. Civ. Code § 3111 training-data disclosure patch for DeadlineSF.
+Free custom Cal. Civ. Code § 3111 training-data disclosure for DeadlineSF.
 
-## Files
-- `index.html` — claim page
-- `ab2013-disclosure.html` — the disclosure (required)
-- `training-data-badge.html` — optional footer badge
+- `index.html` + `generator.js`: builds each customer's disclosure in their browser from their answers. An optional folder scan reads files locally to point at evidence (datasets, base models, fine-tune jobs, data-file record counts). Nothing is uploaded: the CSP in `netlify.toml` sets `connect-src 'none'`.
+- Unanswered items are left out. Placeholder text (`[[…]]`, TBD, TODO) is rejected.
+- `ab2013-disclosure.html` (old static template) is no longer served; it redirects to `/`.
+- Tests: `node --test tests/*.mjs`.
 
-## Netlify
-Connect this repo to site **claimfreepatch** · branch `main` · publish directory empty.
+Not legal advice. No compliance guarantee.
 
-Live: https://claimfreepatch.netlify.app
+Netlify site **claimfreepatch**, branch `main`, publish `.`.

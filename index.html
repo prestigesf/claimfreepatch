@@ -3,112 +3,55 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Free patch — DeadlineSF</title>
-<meta name="description" content="Free Cal. Civ. Code § 3111 training-data disclosure. Publish on your domain. We do not access your systems.">
+<title>Free custom patch — DeadlineSF</title>
+<meta name="description" content="Free custom Cal. Civ. Code § 3111 training-data disclosure, built in your browser.">
 <meta name="theme-color" content="#050505">
 <link rel="canonical" href="https://claimfreepatch.netlify.app/">
 <style>
 :root{--bg:#050505;--ink:#f2f2f2;--muted:#888;--line:#1a1a1a;--red:#ff3b2f;--green:#46e6a0}
 *{box-sizing:border-box;margin:0;padding:0}
-html,body{min-height:100%}
 body{background:var(--bg);color:var(--ink);font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;display:flex;flex-direction:column;min-height:100vh}
-a{color:inherit;transition:color .15s}a:hover{color:var(--red)}
+a{color:inherit}a:hover{color:var(--red)}
 .top{display:flex;justify-content:space-between;align-items:center;padding:18px 24px;border-bottom:1px solid var(--line);font:12px/1 ui-monospace,Menlo,monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
-.top a{color:var(--muted);text-decoration:none}.top a:hover{color:var(--red)}
+.top a{color:var(--muted);text-decoration:none}
 .mark{color:var(--ink)}.mark span{color:var(--red)}
-main{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:56px 20px 72px;max-width:500px;margin:0 auto;width:100%}
-h1{font-size:clamp(1.7rem,5vw,2.25rem);line-height:1.1;font-weight:700;letter-spacing:-.03em;margin-bottom:14px}
-.sub{color:var(--muted);font-size:.95rem;line-height:1.5;margin-bottom:32px}
-.cta{appearance:none;border:0;cursor:pointer;background:var(--red);color:#fff;font-weight:700;font-size:1rem;padding:16px 32px;border-radius:8px}
+main{flex:1;padding:48px 20px 64px;max-width:620px;margin:0 auto;width:100%}
+h1{font-size:clamp(1.7rem,5vw,2.25rem);line-height:1.1;font-weight:700;letter-spacing:-.03em;margin-bottom:8px;text-align:center}
+.cite{text-align:center;font:12px/1.4 ui-monospace,Menlo,monospace;color:var(--muted);margin-bottom:28px}
+.row{display:flex;gap:10px;margin-bottom:10px}.row input{flex:1}
+input,textarea{width:100%;background:#0d0d0d;border:1px solid #222;border-radius:6px;color:var(--ink);font:14px/1.4 inherit;padding:10px}
+input:focus,textarea:focus{outline:none;border-color:var(--red)}
+.scan{display:block;border:1px dashed #333;border-radius:8px;padding:14px;text-align:center;font-size:13px;color:var(--muted);cursor:pointer;margin:14px 0 20px}
+.scan input{display:none}
+#scanned{display:block;margin-top:6px;font:11px/1.3 ui-monospace,Menlo,monospace;color:var(--green)}
+.f{display:block;margin-bottom:14px}
+.f span{display:block;font-size:12.5px;color:var(--muted);margin-bottom:4px}.f i{font-style:normal;color:#555;font-family:ui-monospace,Menlo,monospace}
+.ev{display:block;font:11px/1.3 ui-monospace,Menlo,monospace;color:var(--green);margin-top:3px;word-break:break-all}
+.cta{appearance:none;border:0;cursor:pointer;background:var(--red);color:#fff;font-weight:700;font-size:1rem;padding:16px 32px;border-radius:8px;width:100%;margin-top:8px}
 .cta:hover{background:#ff5248}
-.voice{margin-top:14px;font:12px/1.4 ui-monospace,Menlo,monospace;color:var(--muted)}
-.voice b{color:var(--ink)}
-#done{display:none;width:100%}
-.check{width:52px;height:52px;border-radius:50%;border:1px solid var(--green);display:flex;align-items:center;justify-content:center;margin:0 auto 18px;color:var(--green);font-size:1.35rem}
-.btn{display:inline-block;padding:14px 28px;border-radius:8px;background:var(--red);color:#fff;font-weight:700;font-size:.95rem;text-decoration:none}
-.btn:hover{background:#ff5248;color:#fff}
-.steps{text-align:left;margin:28px auto 0;max-width:32ch;font-size:13px;color:var(--muted);line-height:1.6}
-.steps ol{margin:8px 0 0 1.1em;padding:0}
-.note{margin-top:24px;font-size:12px;color:#666;line-height:1.5}
-.sec{margin-top:18px;font-size:12px}
-.sec a{color:#666;text-decoration:underline;text-underline-offset:3px}.sec a:hover{color:var(--red)}
+#status{text-align:center;margin-top:12px;font:12px/1.4 ui-monospace,Menlo,monospace;color:var(--muted)}
+.note{margin-top:22px;font-size:12px;color:#666;text-align:center}
 footer{border-top:1px solid var(--line);padding:16px 24px;font:11px/1 ui-monospace,Menlo,monospace;letter-spacing:.1em;text-transform:uppercase;color:#333;text-align:center}
-footer a{color:#555;text-decoration:none}footer a:hover{color:var(--red)}
+footer a{color:#555;text-decoration:none}
 </style>
+<script src="generator.js" defer></script>
 </head>
 <body>
   <div class="top">
     <div class="mark">//DEADLINE<span>SF</span></div>
     <a href="https://deadlinesf.net">deadlinesf.net</a>
   </div>
-  <main id="offer">
-    <h1>Free § 3111 patch</h1>
-    <p class="sub">Training-data disclosure mapped to California Civil Code § 3111(a)(1)–(12). You publish it on your domain. We do not access your systems.</p>
-    <button class="cta" id="go" type="button">Get free patch</button>
-    <p class="voice">or say <b>yes</b></p>
-  </main>
-  <main id="done">
-    <div class="check">✓</div>
-    <h1>Ready</h1>
-    <p class="sub">One file. Every statutory element labeled.</p>
-    <a class="btn" id="dl" href="ab2013-disclosure.html" download="training-data-disclosure.html">Download disclosure</a>
-    <div class="steps">
-      <ol>
-        <li>Fill each field with high-level facts.</li>
-        <li>Publish at <strong>/training-data</strong>.</li>
-        <li>Link “Training data” from your footer.</li>
-      </ol>
-    </div>
-    <p class="note" id="integrity" style="word-break:break-all">Checking file SHA-256…</p>
-    <p class="note">High-level summary only. Not legal advice. Other laws may still apply.</p>
-    <p class="sec"><a id="badge" href="training-data-badge.html" download="training-data-badge.html">Optional footer badge</a></p>
+  <main>
+    <h1>Free custom § 3111 patch</h1>
+    <p class="cite">Cal. Civ. Code § 3111(a)(1)–(12)</p>
+    <div class="row"><input id="dev" placeholder="Company" autocomplete="organization"><input id="sys" placeholder="AI system"></div>
+    <input id="contact" placeholder="Contact">
+    <label class="scan">Scan code folder — stays on this device<input type="file" id="folder" webkitdirectory multiple><small id="scanned"></small></label>
+    <form id="fields"></form>
+    <button class="cta" id="make" type="button">Download custom patch</button>
+    <p id="status"></p>
+    <p class="note">Nothing uploaded. Not legal advice.</p>
   </main>
   <footer>DeadlineSF · <a href="https://deadlinesf.net">deadlinesf.net</a></footer>
-<script>
-function install(){
-  document.getElementById('offer').style.display='none';
-  document.getElementById('done').style.display='block';
-  try{history.replaceState(null,'','#claimed')}catch(_){}
-}
-document.getElementById('go').addEventListener('click',install);
-if(location.hash==='#claimed')install();
-const RAW='https://raw.githubusercontent.com/prestigesf/claimfreepatch/main/';
-// Real integrity check: SHA-256 of the exact file bytes from this repo, computed
-// in this browser and compared with the pinned hash. The download hands over
-// those same verified bytes (the host can add tags to served HTML).
-const SHA256={'ab2013-disclosure.html':'16e1a466fb15f2d75263d685ae1b1a3695b2004521991f8bee56310982e4da0f','training-data-badge.html':'7da1d5ae58f0c21494e2c8d65a201230f0a7147513f8fe193bb92e3fd43f4381'};
-const VERIFIED={};
-async function sha256(buf){const d=await crypto.subtle.digest('SHA-256',buf);return Array.from(new Uint8Array(d),b=>b.toString(16).padStart(2,'0')).join('')}
-async function checkAll(){
-  const el=document.getElementById('integrity');
-  if(!(window.crypto&&crypto.subtle)){el.textContent='This browser could not run the SHA-256 check.';return}
-  const out=[];let ok=true;
-  for(const f of Object.keys(SHA256)){
-    try{const buf=await (await fetch(RAW+f,{cache:'no-store'})).arrayBuffer();const h=await sha256(buf);
-      if(h===SHA256[f]){VERIFIED[f]=buf;out.push(f+' sha256 '+h+' ✓')}else{ok=false;out.push(f+' sha256 '+h+' (expected '+SHA256[f]+')')}}
-    catch(_){ok=false;out.push(f+': could not be checked')}
-  }
-  el.textContent=(ok?'SHA-256 matches, checked in your browser · ':'Integrity check failed. Do not use. · ')+out.join(' · ');
-  if(!ok)el.style.color='#FF2B2B';
-}
-checkAll();
-function ensure(e,file,name){
-  if(!VERIFIED[file])return;
-  e.preventDefault();
-  const url=URL.createObjectURL(new Blob([VERIFIED[file]],{type:'text/html'}));
-  const a=document.createElement('a');a.href=url;a.download=name;a.click();
-  setTimeout(()=>URL.revokeObjectURL(url),1500);
-}
-document.getElementById('dl').addEventListener('click',e=>ensure(e,'ab2013-disclosure.html','training-data-disclosure.html'));
-document.getElementById('badge').addEventListener('click',e=>ensure(e,'training-data-badge.html','training-data-badge.html'));
-try{
-  const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
-  if(SR){const r=new SR();r.continuous=true;r.interimResults=false;r.lang='en-US';
-    r.onresult=e=>{const t=e.results[e.results.length-1][0].transcript.toLowerCase();
-      if(/\byes\b|\byeah\b|\bsure\b|\bok\b|\bokay\b/.test(t))install()};
-    document.body.addEventListener('click',()=>{try{r.start()}catch(_){}},{once:true});
-  }
-}catch(_){}
-</script>
 </body>
 </html>
