@@ -11,18 +11,16 @@
     # fetch/XHR/WebSocket/beacon, so scanned code and answers cannot leave.
     Content-Security-Policy = "default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'none'; form-action 'none'; base-uri 'none'; frame-ancestors 'none'"
 
-# The old one-size placeholder file is no longer handed out.
+# Labeled sample disclosure made with the generator (not a real company disclosure).
 [[redirects]]
   from = "/ab2013-disclosure"
-  to = "/"
-  status = 301
-  force = true
+  to = "/ab2013-disclosure.html"
+  status = 200
 
 [[redirects]]
-  from = "/ab2013-disclosure.html"
-  to = "/"
-  status = 301
-  force = true
+  from = "/training-data"
+  to = "/ab2013-disclosure.html"
+  status = 200
 
 [[redirects]]
   from = "/site/*"

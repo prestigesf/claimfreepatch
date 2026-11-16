@@ -78,7 +78,7 @@ test('no network calls in the generator, and the CSP forbids them', () => {
   assert.match(toml, /script-src 'self'/);
 });
 
-test('page loads only local scripts and no longer hands out the static template', () => {
+test('page loads only local scripts and serves a labeled sample disclosure', () => {
   const html = read('index.html');
   const scripts = [...html.matchAll(/<script\b[^>]*>/g)].map((m) => m[0]);
   assert.deepEqual(scripts, [
@@ -88,7 +88,14 @@ test('page loads only local scripts and no longer hands out the static template'
   assert.ok(!/<script>[^<]/.test(html));
   assert.ok(!html.includes('ab2013-disclosure.html'));
   assert.ok(!/ on[a-z]+="/.test(html));
-  assert.match(read('netlify.toml'), /from = "\/ab2013-disclosure.html"\s+to = "\/"\s+status = 301\s+force = true/);
+  const toml = read('netlify.toml');
+  assert.doesNotMatch(toml, /from = "\/ab2013-disclosure.html"\s+to = "\/"/);
+  assert.match(toml, /from = "\/ab2013-disclosure"\s+to = "\/ab2013-disclosure.html"\s+status = 200/);
+  assert.match(toml, /from = "\/training-data"\s+to = "\/ab2013-disclosure.html"\s+status = 200/);
+  const sample = read('ab2013-disclosure.html');
+  assert.match(sample, /not a real company disclosure/i);
+  assert.match(sample, /class="ab2013-disclosure"/);
+  assert.match(sample, /data-control="ctl-synthetic-data"/);
 });
 
 test('default output is an embed fragment that inherits host styles', () => {
