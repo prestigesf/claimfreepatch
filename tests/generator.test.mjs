@@ -272,3 +272,12 @@ test('3-digit hex normalizes; contrast of white on white fails', () => {
   assert.equal(g.normalizeHex('#ffff'), '');
   assert.equal(g.contrastReport({ text: '#ffffff', primary: '#ffffff', accent: '#ffffff', background: '#ffffff' }).pass, false);
 });
+
+// 2026-11-18: result page points to the paid Scan; folder button renamed.
+import { readFileSync as _rf } from "node:fs";
+test("result page has a Scan · $3,500 button to DeadlineSF checkout", () => {
+  const h = _rf(new URL("../index.html", import.meta.url), "utf8");
+  assert.match(h, /<a class="ghost" id="scan-cta" href="https:\/\/deadlinesf\.net\/checkout\?pkg=scan_3500">Scan · \$3,500<\/a>/);
+  assert.equal(h.includes("Scan code folder"), false);
+  assert.match(h, /Find evidence in a folder — stays on this device/);
+});
