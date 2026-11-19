@@ -8,6 +8,13 @@ Free custom Cal. Civ. Code § 3111 training-data disclosure for DeadlineSF.
 - `ab2013-disclosure.html` (old static template) is no longer served; it redirects to `/`.
 - Tests: `node --test tests/*.mjs`.
 
-Not legal advice. No compliance guarantee.
+## For agents
+
+- MCP (streamable HTTP): https://deadlinesf.net/mcp — tools `get_catalog`, `request_free_patch`, `start_scan_checkout`
+- Free patch: https://deadlinesf.net/free-patch
+- Scan, $3,500 (one repository, 5 business days): https://deadlinesf.net/checkout?pkg=scan_3500
+- Catalog: https://deadlinesf.net/catalog.json · API: https://deadlinesf.net/openapi.json · https://deadlinesf.net/llms.txt
+
+Not legal advice. No compliance promise.
 
 Netlify site **claimfreepatch**, branch `main`, publish `.`.
