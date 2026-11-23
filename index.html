@@ -18,6 +18,7 @@ a{color:inherit}a:hover{color:var(--red)}
 main{flex:1;padding:48px 20px 64px;max-width:620px;margin:0 auto;width:100%}
 h1{font-size:clamp(1.7rem,5vw,2.25rem);line-height:1.1;font-weight:700;letter-spacing:-.03em;margin-bottom:8px;text-align:center}
 .cite{text-align:center;font:12px/1.4 ui-monospace,Menlo,monospace;color:var(--muted);margin-bottom:28px}
+.cite a{color:inherit;text-decoration:underline;text-underline-offset:2px}
 .row{display:flex;gap:10px;margin-bottom:10px}.row input{flex:1}#contact{margin-bottom:10px}
 input,textarea,select{width:100%;background:#0d0d0d;border:1px solid #222;border-radius:6px;color:var(--ink);font:14px/1.4 inherit;padding:10px;min-height:44px}
 input:focus-visible,textarea:focus-visible,select:focus-visible,button:focus-visible,.seg label:has(input:focus-visible){outline:2px solid var(--red);outline-offset:2px}
@@ -67,7 +68,7 @@ footer a{color:#b0b0b0;text-decoration:none}
   </div>
   <main>
     <h1>Free custom § 3111 patch</h1>
-    <p class="cite">Cal. Civ. Code § 3111(a)(1)–(12)</p>
+    <p class="cite"><a href="https://leginfo.legislature.ca.gov/faces/codes_displayText.xhtml?lawCode=CIV&amp;division=3.&amp;title=15.2.&amp;part=4." rel="noopener noreferrer">Cal. Civ. Code § 3111(a)(1)–(12)</a></p>
     <div class="row"><input id="dev" placeholder="Company" aria-label="Company" autocomplete="organization"><input id="sys" placeholder="AI system" aria-label="AI system"></div>
     <input id="contact" placeholder="Contact" aria-label="Contact" autocomplete="off">
     <label class="scan">Find evidence in a folder — stays on this device<input type="file" id="folder" webkitdirectory multiple><small id="scanned"></small></label>
